@@ -1,0 +1,20 @@
+{
+  "name": "nodejs",
+  "version": "0.0.0",
+  "homepage": "http://somallg.com",
+  "private": false,
+  "dependencies": {
+    "requirejs": "latest",
+    "jquery": "2.1.0",
+    "lodash": "~2.4",
+    "bacon": "latest",
+    "pointfree": "DrBoolean/pointfree-fantasy",
+    "pixi": "~3.0.7"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ]
+}

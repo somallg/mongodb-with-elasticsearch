@@ -1,0 +1,10 @@
+extends blank-layout
+
+block content
+    .container.content-section.text-center
+        if error.status
+            h2= error.status
+        if message
+            h1= message
+        if error.stack
+            pre #{error.stack}

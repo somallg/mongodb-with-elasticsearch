@@ -55,3 +55,4 @@ $ curl -XPUT localhost:9200/_river/recipesindex/_meta -d '{
   }
 }'
 ```
+* If you have MapperParsingException, rerun index again
