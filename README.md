@@ -35,11 +35,6 @@ $ sudo apt-get install mongodb
 * You must be using MongoDB replica sets since the River Plugin tails the oplog
 * Check `init_sharded_env.24825a3cb9f2.sh` for command to run
 
-## Prepare data
-* Go to http://openrecip.es/ and download latest recipe items
-* Unzip the gz file
-* Import to mongo using `mongoimport --port 37017 -d test -c recipes`
-
 ## Create ElasticSeach index
 ```
 $ curl -XPUT localhost:9200/_river/recipesindex/_meta -d '{
@@ -47,7 +42,10 @@ $ curl -XPUT localhost:9200/_river/recipesindex/_meta -d '{
   "mongodb": {
     "servers": [{ "host": "127.0.0.1", "port": 37017 }],
     "db": "test",
-    "collection": "recipes"
+    "collection": "recipes",
+    "options": {
+        "exclude_fields": ["datePublished"]
+    }
   },
   "index": {
     "name": "recipesindex",
@@ -55,4 +53,8 @@ $ curl -XPUT localhost:9200/_river/recipesindex/_meta -d '{
   }
 }'
 ```
-* If you have MapperParsingException, rerun index again
+
+## Prepare data
+* Go to http://openrecip.es/ and download latest recipe items
+* Unzip the gz file
+* Import to mongo using `mongoimport --port 37017 -d test -c recipes`

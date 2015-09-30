@@ -9,7 +9,8 @@ var express     = require('express'),
     // TODO cookieParser
     // TODO bodyParser
     // routes dependencies
-    index       = require('./routes/index');
+    index       = require('./routes/index'),
+    search      = require('./routes/search');
 
 // Create app
 var app = express();
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define routes
 app.use('/', index);
+app.use('/search', search);
 
 // Catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

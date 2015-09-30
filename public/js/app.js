@@ -43,7 +43,7 @@ define(['jquery', 'ramda', 'pointfree', 'maybe', 'player', 'socketio', 'bacon', 
 
     //+ termToUrl :: String -> URL
     var termToUrl = function(term) {
-        return 'http://localhost:9200/recipesindex/_search?q=_all:' + term;
+        return '/search?q=' + term;
     };
 
     //+ urlStream :: DomEvent -> EventStream String
