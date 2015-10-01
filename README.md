@@ -80,7 +80,9 @@ $ curl -XPUT localhost:9200/_river/recipesindex/_meta -d '{
 }'
 ```
 
+* Ignore fields datePublished because it cause exception in River
+
 ## Prepare data
 * Go to http://openrecip.es/ and download latest recipe items
 * Unzip the gz file
-* Import to mongo using `mongoimport --port 37017 -d test -c recipes`
+* Import to mongo using `mongoimport --port 37017 -d test -c recipes recipeitems-latest.json`
