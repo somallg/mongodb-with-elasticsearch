@@ -1,20 +1,25 @@
 /// <reference path="typings/tsd.d.ts"/>
+
 // OpenShift Simple Nodejs application
+
 // Define dependencies
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
+import express  = require('express');
+import path     = require('path');
+import favicon  = require('serve-favicon');
+import logger   = require('morgan');
 // TODO cookieParser
 // TODO bodyParser
 // routes dependencies
-var index = require('./routes/index');
-var search = require('./routes/search');
+var index       = require('./routes/index');
+var search      = require('./routes/search');
+
 // Create app
-var app = express();
+const app = express();
+
 // Configure template engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
 // Configure middleware
 app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 app.use(logger('dev'));
@@ -22,20 +27,24 @@ app.use(logger('dev'));
 // TODO cookieParser
 // Set up static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
 // Define routes
 app.use('/', index);
 app.use('/search', search);
+
 // Catch 404 and forwarding to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     var err = new Error('Not Found');
     err['status'] = 404;
     next(err);
 });
+
 // Error handlers
+
 // Development error handler
 // will print stacktarce
 if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
+    app.use((err: any, req, res, next) => {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -43,19 +52,21 @@ if (app.get('env') === 'development') {
         });
     });
 }
+
 // Production error handler
 // no stacktrace leaked to user
-app.use(function (err, req, res, next) {
+app.use((err: any, req, res, next) => {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
         error: {}
     });
 });
+
 // Start app
 app.set('ipaddress', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
 app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 3000);
-var server = app.listen(app.get('port'), app.get('ipaddress'), function () {
+
+var server = app.listen(app.get('port'), app.get('ipaddress'), function() {
     console.log('Express server listening on port ' + server.address().port);
 });
-//# sourceMappingURL=server.js.map
