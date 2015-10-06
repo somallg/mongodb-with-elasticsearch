@@ -9,7 +9,8 @@
     "lodash": "~2.4",
     "bacon": "latest",
     "pointfree": "DrBoolean/pointfree-fantasy",
-    "pixi": "~3.0.7"
+    "pixi": "~3.0.7",
+    "angular": "~1.4.7"
   },
   "ignore": [
     "**/.*",

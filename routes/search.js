@@ -11,7 +11,7 @@ router.get('/', function (req, res) {
     else {
         request.get('http://localhost:9200/enronindex/_search?q=_all:' + req.query.q, function (err, response, body) {
             if (err) {
-                res.send(err);
+                res.status(400).send(err);
             }
             else if (response.statusCode == 200) {
                 res.send(body);

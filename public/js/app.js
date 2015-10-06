@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery', 'ramda', 'pointfree', 'maybe', 'player', 'socketio', 'bacon', 'http'], function($, _, P, Maybe, Player, io, bacon, http) {
+define(['jquery', 'angular', 'angular-route','ramda', 'pointfree', 'maybe', 'player', 'socketio', 'bacon', 'http'], function($, angular, ngRoute,_, P, Maybe, Player, io, bacon, http) {
     'use strict';
     io.extendFn();
 
@@ -83,4 +83,47 @@ define(['jquery', 'ramda', 'pointfree', 'maybe', 'player', 'socketio', 'bacon', 
     clickStream(document.body).onValue(
         compose(map(setHtml('#detail')), map(renderDetail), dataObject)
     );
+
+    // Angular ////////////////////////////////////////////////////
+    // TODO complete webapp using angular
+    var app = angular.module('myApp', ['ngRoute']);
+
+    app.config(function($routeProvider) {
+        $routeProvider
+            .when('/inbox', {
+                templateUrl: 'views/inbox.html',
+                controller: 'InboxCtrl',
+                controllerAs: 'inbox'
+            })
+            .when('/inbox/email/:id', {
+                templateUrl: 'views/email.html',
+                controller: 'EmailCtrl',
+                controllerAs: 'email'
+            })
+            .otherwise({
+                redirectTo: '/inbox'
+            });
+    });
+
+    app.factory('InboxFactory', function InboxFactory($http) {
+        var exports = {};
+
+        exports.getMessages = function() {
+            return $http.get('/search?q=*').error(function(data) {
+                console.log('There was an error!', data);
+            });
+        };
+
+        return exports;
+    });
+
+    app.controller('InboxCtrl', function($scope, InboxFactory) {
+        InboxFactory.getMessages()
+            .success(function(data, statusCode) {
+                console.log('Request was successful', statusCode, data);
+                $scope.emails = data.hits.hits;
+            });
+    });
+
+    angular.bootstrap(document, ['myApp']);
 });

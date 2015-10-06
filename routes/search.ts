@@ -13,7 +13,7 @@ router.get('/', function(req: express.Request, res: express.Response) {
     } else {
         request.get('http://localhost:9200/enronindex/_search?q=_all:' + req.query.q, function (err: any, response: http.IncomingMessage, body: any) {
             if (err) {
-                res.send(err);
+                res.status(400).send(err);
             } else if (response.statusCode == 200) {
                 res.send(body);
             }
