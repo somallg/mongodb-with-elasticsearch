@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
         res.send({ 'hits': { 'hits': [] } });
     }
     else {
-        request.get('http://localhost:9200/recipesindex/_search?q=_all:' + req.query.q, function (err, response, body) {
+        request.get('http://localhost:9200/enronindex/_search?q=_all:' + req.query.q, function (err, response, body) {
             if (err) {
                 res.send(err);
             }

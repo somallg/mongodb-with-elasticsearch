@@ -11,7 +11,7 @@ router.get('/', function(req: express.Request, res: express.Response) {
     if (!req.query.q) {
         res.send({'hits': {'hits': []}});
     } else {
-        request.get('http://localhost:9200/recipesindex/_search?q=_all:' + req.query.q, function (err: any, response: http.IncomingMessage, body: any) {
+        request.get('http://localhost:9200/enronindex/_search?q=_all:' + req.query.q, function (err: any, response: http.IncomingMessage, body: any) {
             if (err) {
                 res.send(err);
             } else if (response.statusCode == 200) {

@@ -1,9 +1,14 @@
-# Use Elasticsearch with MongoDB
+# Use Elasticsearch with MongoDB to create an instant search webbapp
 
 ## Install NodeJS
 ```
 $ sudo apt-get install nodejs
 $ sudo apt-get install npm
+```
+
+## Install bower
+```
+$ sudo npm install -g bower
 ```
 
 ## Install MongoDB
@@ -22,14 +27,26 @@ $ sudo apt-get install mongodb
 * Optionally, disable multicast discovery (development) in `config/elasticsearch.yml`
     * discovery.zen.ping.multicast.enabled: false
 
-## Install Plugin
+## Install River
 * `cd` to where elasticsearch is unzipped
-* `$ bin/plugin --install elasticsearch/elasticsearch-mapper-attachments/MAPPER_VERSION`
-    * MAPPER_VERSION from https://github.com/elastic/elasticsearch-mapper-attachments#mapper-attachments-type-for-elasticsearch
-* `$ bin/plugin --install com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/RIVER_VERSION`
-    * RIVER_VERSION from https://github.com/richardwilly98/elasticsearch-river-mongodb#mongodb-river-plugin-for-elasticsearch
 
-* `$ bin/plugin --install mobz/elasticsearch-head`
+```
+$ bin/plugin --install elasticsearch/elasticsearch-mapper-attachments/MAPPER_VERSION
+```
+
+* MAPPER_VERSION from https://github.com/elastic/elasticsearch-mapper-attachments#mapper-attachments-type-for-elasticsearch
+
+```
+$ bin/plugin --install com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/RIVER_VERSION
+```
+
+* RIVER_VERSION from https://github.com/richardwilly98/elasticsearch-river-mongodb#mongodb-river-plugin-for-elasticsearch
+
+
+## Install additional plugin
+```
+$ bin/plugin --install mobz/elasticsearch-head
+```
 
 ## Config MongoDB
 * You must be using MongoDB replica sets since the River Plugin tails the oplog
@@ -63,26 +80,44 @@ $ mongo --port 37017
 
 ## Create ElasticSeach index
 ```
-$ curl -XPUT localhost:9200/_river/recipesindex/_meta -d '{
+$ curl -XPUT localhost:9200/_river/enronindex/_meta -d '{
   "type": "mongodb",
   "mongodb": {
     "servers": [{ "host": "127.0.0.1", "port": 37017 }],
-    "db": "test",
-    "collection": "recipes",
-    "options": {
-        "exclude_fields": ["datePublished"]
-    }
+    "db": "enron",
+    "collection": "messages"
   },
   "index": {
-    "name": "recipesindex",
-    "type": "recipes"
+    "name": "enronindex",
+    "type": "message"
   }
 }'
 ```
 
-* Ignore fields datePublished because it cause exception in River
+## Prepare dump data
+* Download the compressed mongodump data https://s3.amazonaws.com/mongodb-enron-email/enron_mongo.tar.bz2
+* `cd` to the folder contains `enron_mongo.tar.br2`. Unzip the compressed file using
+```
+$ tar xvfj enron_mongo.tar.bz2
+```
+* Import data to mongo using 
+```
+$ mongorestore --port 37017 -d enron -c messages dump/enron_mail/messages.bson
+```
 
-## Prepare data
-* Go to http://openrecip.es/ and download latest recipe items
-* Unzip the gz file
-* Import to mongo using `mongoimport --port 37017 -d test -c recipes recipeitems-latest.json`
+## Test url
+* To check index of river `http://localhost:9200/_plugin/river-mongodb`
+* To check index and query `http://localhost:9200/_plugin/head`
+
+## Install nodejs and bower dependencies
+```
+$ npm install
+$ bower install
+```
+
+## Run webapp
+```
+$ node server
+```
+
+* Then go to `localhost:3000`, type in input textbox for instant search

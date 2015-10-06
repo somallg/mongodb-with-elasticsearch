@@ -54,21 +54,13 @@ define(['jquery', 'ramda', 'pointfree', 'maybe', 'player', 'socketio', 'bacon', 
 
     //+ render :: Entry -> Dom
     var render = function(e) {
-        return $('<li/>', { text: e._source.name, 'data-object': JSON.stringify(e._source) });
+        return $('<li/>', { text: e._source.headers.Subject || e._source.body, 'data-object': JSON.stringify(e._source) });
     };
 
     //+ renderDetail :: Entry -> Dom
     var renderDetail  = function(e) {
 
-        var detail  = '<li> Name: '  + e.name + '<li/>';
-            detail += '<li> Cook Time: ' + e.cookTime + '<li/>';
-            detail += '<li> Prepartion Time: ' + e.prepTime + '<li/>';
-            detail += '<li> Description: ' + e.description + '<li/>';
-            detail += '<img src=' + e.image + '/>';
-            detail += '<li> Ingredients : ' + e.ingredients + '<li/>';
-            detail += '<li> Source : ' + e.source + '<li/>';
-
-        return detail;
+        return $('<pre/>', { text : JSON.stringify(e, null, 2) });
     };
 
     //+ hitEntries :: Response -> [Dom]
