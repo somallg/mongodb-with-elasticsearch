@@ -1,4 +1,4 @@
-# Use Elasticsearch with MongoDB to create an instant search webbapp
+# Use ElasticSearch with MongoDB to create an instant search webbapp
 
 ## 1. Install NodeJS
 ```
@@ -20,8 +20,8 @@ $ sudo apt-get install mongodb
 * Open https://github.com/richardwilly98/elasticsearch-river-mongodb#mongodb-river-plugin-for-elasticsearch
 * Note the version of MongoDB, ElasticSearch and MongoDB River Plugin
 
-## 5. Install Elasticsearch
-* Download Elasticsearch: http://www.elasticsearch.org/overview/elkdownloads/
+## 5. Install ElasticSearch
+* Download ElasticSearch: http://www.elasticsearch.org/overview/elkdownloads/
 * Check MongoDB version for match ElasticSearch and MongoDB River Plugin version
 * Unzip and cd to the directory and run `bin/elasticsearch`
 * Optionally, disable multicast discovery (development) in `config/elasticsearch.yml`
@@ -42,6 +42,17 @@ $ bin/plugin --install com.github.richardwilly98.elasticsearch/elasticsearch-riv
 
 * RIVER_VERSION from https://github.com/richardwilly98/elasticsearch-river-mongodb#mongodb-river-plugin-for-elasticsearch
 
+* Example: for MongoDB version `3.0.0` use ElasticSearch version `1.4.2` and the command lines below
+```
+$ bin/plugin --install elasticsearch/elasticsearch-mapper-attachments/2.4.3
+$ bin/plugin --install com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.9
+```
+
+* Example: for MongoDB version `2.4.9 -> 2.6.3` use ElasticSearch version `1.2.2` and the command lines below
+```
+$ bin/plugin --install elasticsearch/elasticsearch-mapper-attachments/2.2.1
+$ bin/plugin --install com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.1
+```
 
 ## 7. Install additional plugin
 ```
@@ -78,7 +89,7 @@ $ mongo --port 37017
 > rs.initiate(config)
 ```
 
-## 12. Create ElasticSeach index
+## 12. Create ElasticSearch index
 ```
 $ curl -XPUT localhost:9200/_river/enronindex/_meta -d '{
   "type": "mongodb",
